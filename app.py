@@ -20,13 +20,13 @@ def login():
                 if email == "admin@test.com" and password == "12345":
                     st.session_state['logged_in'] = True
                     st.session_state['user_email'] = email
-                    st.rerun() # Page ko refresh karke dashboard dikhane ke liye
+                    st.rerun() # To refresh the page and display the dashboard
                 else:
-                    st.error("Galat Email ya Password!")
+                    st.error("Incorrect Email or Password!")
         
         with col2:
             if st.button("Sign Up"):
-                st.info("Sign up feature jald hi chalu hoga.")
+                st.info("The sign-up feature will be available soon.")
 
 # --- 2. LOGOUT LOGIC ---
 def logout():
@@ -115,3 +115,4 @@ with col_ai:
             st.markdown("#### 💡 AI Response:")
 
             st.write("Bhai, aapka data analyze ho gaya hai. Analysis ke mutabiq sales 20% badhi hai.")
+
