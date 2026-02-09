@@ -3,6 +3,52 @@ import requests  # Backend API se baat karne ke liye
 import pandas as pd
 from streamlit_mic_recorder import mic_recorder
 
+# --- 1. LOGIN LOGIC ---
+def login():
+    st.markdown("<h2 style='text-align: center;'>🔐 Data Vishleshan Login</h2>", unsafe_allow_html=True)
+    
+    # Login Box
+    with st.container():
+        email = st.text_input("Email ID")
+        password = st.text_input("Password", type="password")
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            if st.button("Login"):
+                # Abhi ke liye hum simple check laga rahe hain
+                # Baad mein ise Firebase se connect karenge
+                if email == "admin@test.com" and password == "12345":
+                    st.session_state['logged_in'] = True
+                    st.session_state['user_email'] = email
+                    st.rerun() # Page ko refresh karke dashboard dikhane ke liye
+                else:
+                    st.error("Galat Email ya Password!")
+        
+        with col2:
+            if st.button("Sign Up"):
+                st.info("Sign up feature jald hi chalu hoga.")
+
+# --- 2. LOGOUT LOGIC ---
+def logout():
+    st.session_state['logged_in'] = False
+    st.rerun()
+
+# --- 3. MAIN APP FLOW ---
+if 'logged_in' not in st.session_state:
+    st.session_state['logged_in'] = False
+
+if not st.session_state['logged_in']:
+    login()
+else:
+    # --- Yahan se aapka Dashboard shuru hota hai ---
+    st.sidebar.write(f"👤 User: {st.session_state['user_email']}")
+    if st.sidebar.button("Logout"):
+        logout()
+    
+    # Aapka purana saara Dashboard code yahan aayega
+    st.title("📊 Universal Data Vishleshan AI")
+    # ... baki ka code ...
+
 # --- 1. UI CONFIGURATION ---
 st.set_page_config(page_title="Data Vishleshan Studio", layout="wide")
 
@@ -67,4 +113,5 @@ with col_ai:
             # Yahan hum Backend (main.py) ko request bhejenge
             # response = requests.post("http://localhost:8000/process", data=...)
             st.markdown("#### 💡 AI Response:")
+
             st.write("Bhai, aapka data analyze ho gaya hai. Analysis ke mutabiq sales 20% badhi hai.")
